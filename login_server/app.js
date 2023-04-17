@@ -6,6 +6,8 @@ const sendtest_router = require('./routes/sendtest');
 const novels_router = require('./routes/novels');
 const chapters_router = require('./routes/chapters');
 const novelsContents = require('./routes/novels_contents');
+const arms = require('./routes/arms');
+const arms_get = require('./routes/arms_get');
 
 
 
@@ -20,6 +22,10 @@ app.use('/', novels_router);
 app.use('/', chapters_router);
 //使用小说内容路由
 app.use('/', novelsContents);
+//使用武器路由
+app.use('/', arms);
+//插入武器路由
+app.use('/', arms_get);
 
 
 app.use('/sendtest', sendtest_router);

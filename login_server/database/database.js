@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 //数据库连接池
 const pool = mysql.createPool({
     host: 'localhost',
+    //user:'user',
     user: 'root',
     password: '123456',
     database: 'user_database',
@@ -95,6 +96,38 @@ function fetchNovelContent(contentId, callback) {
   );
 }
 
+//获取武器仓库
+function fetchArms(callback) {
+  pool.query('SELECT * FROM store_house', (error, results, fields) => {
+    if (error) {
+      callback(error, null);
+      return;
+    }
+    callback(null, results);
+  });
+}
+
+//导入武器
+function insertWeapon(arms_name, arms_detail, user_id, arms_image, novel_id, callback) {
+  pool.query(
+    'INSERT INTO store_house (arms_name, arms_detail, user_id, arms_image, novel_id) VALUES (?, ?, ?, ?, ?)',
+    [arms_name, arms_detail, user_id, arms_image, novel_id],
+    (error, results, fields) => {
+      if (error) {
+        console.error('Error executing query:', error);
+        callback(error, null);
+        return;
+      }
+
+      if (results.affectedRows === 1) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    }
+  );
+}
+
 
 
 
@@ -104,7 +137,9 @@ module.exports = {
   register,
   fetchNovels,
   fetchNovelContent,
-  fetchChapters
+  fetchChapters,
+  fetchArms,
+  insertWeapon
 };
 
 
